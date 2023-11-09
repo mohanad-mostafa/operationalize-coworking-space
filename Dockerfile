@@ -2,7 +2,7 @@ FROM python:3.10-slim-buster
 
 USER root
 
-WORKDIR /src
+# WORKDIR /src
 
 COPY ./requirements.txt requirements.txt
 
@@ -14,4 +14,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD python app.py
+CMD python analytics/app.py

@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from flask import jsonify, request
 from sqlalchemy import and_, text
 from random import randint
-
+from models import Token, User
 from config import app, db
 
 
@@ -75,6 +75,31 @@ def all_user_visits():
         }
     
     return jsonify(response)
+
+@app.route("/api/users/<user_id>/tokens", methods=["POST"])
+def generate_token(user_id: int):
+
+    user = User.query.filter(User.id == user_id).first()
+    if not user:
+        return jsonify(
+            {
+                "message": f"User {user_id} was not found"
+            }
+        ), 404
+
+    token = Token(
+        user_id=user_id,
+        token=str(randint(100000, 999999))  # Generate a random 6 digit number
+    )
+
+    db.session.add(token)
+    db.session.commit()
+
+    return jsonify(
+        {
+            "token": token.token
+        }
+    ), 200
 
 
 scheduler = BackgroundScheduler()

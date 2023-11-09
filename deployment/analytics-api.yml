@@ -6,10 +6,10 @@ spec:
   selector:
     app.kubernetes.io/name: analytics-api
   ports:
-  - name: "5152"
+  - name: "5153"
     protocol: TCP
-    port: 5152
-    targetPort: 5152
+    port: 5153
+    targetPort: 5153
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -29,18 +29,18 @@ spec:
     spec:
       containers:
       - name: analytics-api
-        image: isjustintime/cd12355-analytics-api:0.1.0
+        image: 484467725826.dkr.ecr.us-east-1.amazonaws.com/udacity-first-repo:0.0.1
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: /health_check
-            port: 5152
+            port: 5153
           initialDelaySeconds: 5
           timeoutSeconds: 2
         readinessProbe:
           httpGet:
             path: "/readiness_check"
-            port: 5152
+            port: 5153
           initialDelaySeconds: 5
           timeoutSeconds: 5
         env:
